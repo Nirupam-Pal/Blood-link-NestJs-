@@ -48,7 +48,7 @@ export class AuthService {
     }
 
     // 3. Compare the plain password with the hashed password
-    const isMatch = bcrypt.compare(loginUserDto.password, user.password as unknown as string);
+    const isMatch = await bcrypt.compare(loginUserDto.password, user.password as string);
 
     if (!isMatch) {
       throw new UnauthorizedException('Invalid credentials');
