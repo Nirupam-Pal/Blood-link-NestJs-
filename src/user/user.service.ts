@@ -6,35 +6,34 @@ import { Model } from 'mongoose';
 
 @Injectable()
 export class UserService {
+  constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
-    constructor(
-        @InjectModel(User.name) private userModel : Model<User>
-    ){}
+  async createUser(registerUserDto: RegisterDto) {
+    try {
+      return await this.userModel.create({
+        fname: registerUserDto.fname,
+        lname: registerUserDto.lname,
+        email: registerUserDto.email,
+        password: registerUserDto.password,
+      });
+    } catch (err) {
+      console.log(err);
 
-    async createUser(registerUserDto: RegisterDto){
-        try{
+      const DUPLICATE_KEY_CODE = 11000;
 
-            return await this.userModel.create({
-                fname: registerUserDto.fname,
-                lname: registerUserDto.lname,
-                email: registerUserDto.email,
-                password: registerUserDto.password
-            })
-        } catch(err){
-            console.log(err);
+      if (err.code === DUPLICATE_KEY_CODE) {
+        throw new ConflictException('User already exists');
+      }
 
-            const DUPLICATE_KEY_CODE = 11000;
-
-            if (err.code === DUPLICATE_KEY_CODE){
-                throw new ConflictException("User already exists")
-            }
-
-            throw err;
-        }
-
+      throw err;
     }
+  }
 
-    async findOneByEmail(email: string){
-        return await this.userModel.findOne({email}).select('+password').exec();
-    }
+  async findOneByEmail(email: string) {
+    return await this.userModel.findOne({ email }).select('+password').exec();
+  }
+
+  async getUserById(id: string) {
+    return await this.userModel.findOne({ _id: id }).exec();
+  }
 }
