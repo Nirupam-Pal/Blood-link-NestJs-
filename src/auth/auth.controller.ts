@@ -41,6 +41,11 @@ export class AuthController {
 
     const user = await this.userService.getUserById(userId)
     console.log(user)
-    return user;
+    return {
+      id: user?._id,
+      lname: user?.lname,
+      fname: user?.fname,
+      email: user?.email,
+    };
   }
 }
