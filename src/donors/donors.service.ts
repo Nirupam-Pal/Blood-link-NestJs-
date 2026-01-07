@@ -19,8 +19,8 @@ export class DonorsService {
     })
   }
 
-  findAll() {
-    return `This action returns all donors`;
+  async findAll() {
+    return await this.donorModel.find();
   }
 
   findOne(id: number) {

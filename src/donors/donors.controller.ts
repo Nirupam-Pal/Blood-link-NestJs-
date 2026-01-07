@@ -1,13 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { DonorsService } from './donors.service';
 import { CreateDonorDto } from './dto/create-donor.dto';
 import { UpdateDonorDto } from './dto/update-donor.dto';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('donors')
 export class DonorsController {
   constructor(private readonly donorsService: DonorsService) {}
 
   @Post()
+  @UseGuards(AuthGuard)
   create(@Body() createDonorDto: CreateDonorDto) {
     return this.donorsService.create(createDonorDto);
   }

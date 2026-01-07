@@ -1,8 +1,9 @@
-import { Prop, SchemaFactory } from "@nestjs/mongoose";
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { HydratedDocument } from "mongoose";
 
 export type DonorDocument = HydratedDocument<Donor>;
 
+@Schema()
 export class Donor {
     @Prop({ required: true })
     fname : string

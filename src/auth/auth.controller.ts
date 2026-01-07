@@ -13,7 +13,6 @@ import { RegisterDto } from './dto/registerUser.dto';
 import { LogInDto } from './dto/loginUser.dto';
 import { AuthGuard } from './auth.guard';
 import { UserService } from 'src/user/user.service';
-import { log } from 'console';
 
 @Controller('auth')
 export class AuthController {
